@@ -1,0 +1,132 @@
+# MAY — your personal assistant
+
+
+
+MAY is a Windows desktop voice assistant. It keeps its local Ollama chat, Piper voices, floating orb, Windows controls, timers, reminders, alarms, web search, and app shortcuts, and adds optional cloud chat, project-file help, image creation/editing, and richer PDF tools.
+
+
+
+## Open and run the existing MAY folder
+
+
+
+Keep using the existing `E:\MAY_Assistant` folder. Open that folder in VS Code, then open its integrated terminal with **Ctrl+`**. The existing `.venv`, `voices`, `start_may.bat`, `run_may_silent.vbs`, and Windows startup setup stay in place.
+
+
+
+Install or update the packages in the existing virtual environment:
+
+
+
+```powershell
+
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+
+```
+
+
+
+Start MAY in a separate process so it remains open after VS Code closes: double-click `run_may_silent.vbs`. This launcher uses the existing `.venv` and starts MAY without a console window. You can also double-click `start_may.bat`; it starts MAY independently as well.
+
+Starting MAY with `.\.venv\Scripts\python.exe .\may_assistant.py` in VS Code's integrated terminal ties it to that terminal. If the currently running MAY was started this way, close MAY once and relaunch it by double-clicking `run_may_silent.vbs`; after that, you can close VS Code while MAY remains open. For local AI, install Ollama for Windows and run this once in a terminal:
+
+
+
+```powershell
+
+ollama run qwen2.5:3b-instruct
+
+```
+
+
+
+MAY begins listening when it starts. Use the microphone control to pause/resume listening. Right-click the floating orb for listening, startup, and exit options. Say “open VS Code” or “open terminal” to launch those apps as before.
+
+## Security
+
+- MAY starts without an access-code prompt or an in-app tamper check.
+- The MAY program and profile folders now use inherited Windows permissions; who can edit them depends on the parent folder and Windows account permissions.
+- Saved API keys are stored in Windows Credential Manager.
+
+## Chat and AI modes
+
+
+
+- **AUTO** uses the OpenAI API when an API key is configured; otherwise it uses local Ollama.
+
+- **CLOUD** always uses the OpenAI API. **LOCAL** keeps AI requests on the laptop through Ollama.
+
+- Use **API KEY** to save a key in Windows Credential Manager. MAY does not write the key into this folder. OpenAI API usage is billed separately from a ChatGPT subscription.
+
+- Set `MAY_OPENAI_MODEL` or `MAY_OLLAMA_MODEL` to choose models. Defaults are `gpt-6-astra` and `qwen2.5:3b-instruct`.
+
+- Chat naturally in English, Hindi, or Hinglish, including personal and life topics.
+
+
+
+## Project work
+
+
+
+1. Click **PROJECT** and choose the project folder you want MAY to work in.
+
+2. Ask a question or request a code change in English, Hindi, or Hinglish.
+
+3. In cloud mode, MAY can list supported project files, read common project configuration under `.github/`, `.codex/`, and `.agents/`, and create or update up to six files per request. Existing files get a dated backup under `.may-backups/`.
+
+
+
+MAY only reads supported text files, skips common secrets and dependency folders, and writes inside the selected project. It does not run shell commands or delete files. A folder named `sources/` is read-only. You can keep using VS Code or a terminal to inspect and run your project yourself. Project contents are sent to OpenAI only when cloud mode is active; use **LOCAL** to keep AI requests on the laptop.
+
+
+
+## Images
+
+
+
+Click **IMAGE** or say “generate an image of …”. Choose automatic, square, landscape, or portrait layout. MAY can also edit a selected PNG, JPEG, or WebP. Results are saved as PNGs in your user profile's `MAY_Assistant/Creations` folder and opened automatically. Generation and editing need an OpenAI API key and may incur API charges.
+
+
+
+Optional image settings: `MAY_IMAGE_MODEL`, `MAY_IMAGE_EDIT_MODEL`, `MAY_IMAGE_SIZE`, and `MAY_IMAGE_QUALITY`.
+
+
+
+## PDFs
+
+
+
+- **PDF → Open a PDF to discuss** extracts up to 60 pages and 40,000 characters of selectable text. In cloud mode, PDFs up to 30 MB are also sent with high-detail page images so MAY can inspect scans, charts, and tables. Larger PDFs use selectable text only.
+
+- **PDF → Draft a document and create a PDF** creates a styled PDF.
+
+- **PDF → Export recent chat as a polished PDF** creates a paginated PDF with a header and page numbers.
+
+- Local mode keeps extracted PDF text on the laptop. Cloud mode sends the selected PDF to the OpenAI API for visual analysis when it is within the size limit. Clear the selected PDF from the PDF menu when finished.
+
+
+
+## Windows and web features
+
+
+
+MAY can open or close installed apps, launch VS Code and Windows Terminal, control volume and media playback, check battery status, lock the PC, set timers/reminders/alarms, and send WhatsApp messages to saved MAY contacts through WhatsApp Web. Add contacts with CONTACTS, or MAY will ask for a number the first time. Use a clear command such as “Send WhatsApp to Mummy saying Hi” or “Send message to Mummy Hi from WhatsApp.” WhatsApp Web must be logged in in your default browser. Ask for current news or a web-backed answer to get clickable sources.
+
+
+
+## Voice and privacy
+
+
+
+- English/Hinglish and Hindi use the local Piper voices stored under `voices/`; no text-to-speech API key is needed.
+
+- While listening, speech recognition sends captured audio to Google. MAY normally tries one language and uses the other locale only if recognition fails. Pause listening when you do not need the microphone.
+
+- Cloud chat, selected project content, PDFs, and images you choose to edit are sent to the OpenAI API for those requests. Use **LOCAL** for laptop-only AI processing.
+
+- MAY keeps conversation history in memory while it is running. Its saved name preference stays in the Windows user profile.
+
+
+
+Optional defaults are listed in `.env.example`. The API key can be set in Windows user environment variables, but **API KEY** is the recommended way to save it. Do not put a real key in `.env.example` or commit one to a project.
+

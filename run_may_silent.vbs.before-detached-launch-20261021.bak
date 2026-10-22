@@ -1,0 +1,12 @@
+Set WshShell = CreateObject("WScript.Shell")
+Set fso = CreateObject("Scripting.FileSystemObject")
+currentDir = fso.GetParentFolderName(WScript.ScriptFullName)
+pythonwPath = currentDir & "\.venv\Scripts\pythonw.exe"
+scriptPath = currentDir & "\may_assistant.py"
+
+args = ""
+For i = 0 To WScript.Arguments.Count - 1
+    args = args & " """ & WScript.Arguments(i) & """"
+Next
+
+WshShell.Run """" & pythonwPath & """ """ & scriptPath & """" & args, 0, False
